@@ -1134,3 +1134,53 @@ footer{
     font-weight:600;
 
 }
+/* ==========================================
+   5-DAY FORECAST
+========================================== */
+
+.forecast-section {
+    margin-top: 30px;
+}
+
+.forecast-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.forecast-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.forecast-card:hover {
+    transform: translateY(-8px);
+}
+
+.forecast-card h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.forecast-card img {
+    width: 70px;
+    height: 70px;
+    margin: 10px auto;
+}
+
+.forecast-card h2 {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+.forecast-card p {
+    font-size: 16px;
+    text-transform: capitalize;
+}

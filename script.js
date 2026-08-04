@@ -235,45 +235,50 @@ function updateCurrentWeather(data) {
 async function getWeather(city) {
 
     showLoader();
-
     hideError();
 
     try {
 
         const response = await fetch(
-
-`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=${currentUnit}`
-
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=${currentUnit}`
         );
 
-        if (!response.ok)
-            throw new Error();
+        if (!response.ok) {
+            throw new Error("City not found");
+        }
 
         const data = await response.json();
 
+        // Display current weather
         updateCurrentWeather(data);
 
-        // Next parts
-        // getForecast(city);
-        // getAQI(...);
-        // saveSearch(city);
+        // Load Hourly Forecast
+        await getHourlyForecast(city);
 
-    }
+        // Load 5-Day Forecast
+        await getForecast(city);
 
-    catch {
+        // Load Air Quality Index
+        await getAQI(
+            data.coord.lat,
+            data.coord.lon
+        );
 
-        showError();
+        // Save search history
+        saveSearch(city);
 
-    }
+    } catch (error) {
 
-    finally {
+        console.error(error);
+
+        showError("Unable to fetch weather data.");
+
+    } finally {
 
         hideLoader();
 
     }
-
 }
-
 //=========================
 // EVENTS
 //=========================
@@ -635,11 +640,7 @@ locationBtn.addEventListener(
 
                   getHourlyForecast(city);
 
-                        getAQI(
-                           data.coord.lat,
-                             data.coord.lon
-);
-
+                       
                 getForecastByCoordinates(
                     lat,
                     lon
@@ -1114,7 +1115,66 @@ getWeather = async function(city){
 
 };
 
+//==========================================================
+// 5 DAY FORECAST
+//==========================================================
 
+async function getForecast(city) {
+
+    try {
+
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=${currentUnit}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Forecast API Error");
+        }
+
+        const data = await response.json();
+
+        console.log("Forecast Data:", data);
+
+        forecastContainer.innerHTML = "";
+
+        const dailyForecast = [];
+
+        data.list.forEach(item => {
+
+            if (item.dt_txt.includes("12:00:00")) {
+                dailyForecast.push(item);
+            }
+
+        });
+
+        dailyForecast.forEach(day => {
+
+            const card = document.createElement("div");
+            card.className = "forecast-card";
+
+            card.innerHTML = `
+                <h3>${new Date(day.dt_txt).toLocaleDateString("en-US", {
+                    weekday: "short"
+                })}</h3>
+
+                <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png">
+
+                <h2>${Math.round(day.main.temp)}°</h2>
+
+                <p>${day.weather[0].main}</p>
+            `;
+
+            forecastContainer.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error("Forecast Error:", error);
+
+    }
+
+}
 
 
 //==========================================================

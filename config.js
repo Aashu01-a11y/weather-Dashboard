@@ -1,0 +1,2 @@
+const API_KEY = "64710da50a84cc59e919ed7b2553629e";
+console.log("64710da50a84cc59e919ed7b2553629e:", API_KEY);

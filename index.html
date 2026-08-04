@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather Dashboard</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- Loading Spinner -->
+
+    <div id="loader" class="loader hidden">
+
+        <div class="spinner"></div>
+
+        <p>Loading Weather...</p>
+
+    </div>
+
+    <!-- Main Container -->
+
+    <div class="container">
+
+        <!-- Header -->
+
+        <header>
+
+            <h1>
+
+                <i class="fa-solid fa-cloud-sun"></i>
+
+                Weather Dashboard
+
+            </h1>
+
+            <div class="header-buttons">
+
+                <button id="themeBtn">
+
+                    <i class="fa-solid fa-moon"></i>
+
+                </button>
+
+                <button id="unitBtn">
+
+                    °C / °F
+
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <input
+
+                type="text"
+
+                id="cityInput"
+
+                placeholder="Search City">
+
+            <button id="searchBtn">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </button>
+
+            <button id="locationBtn">
+
+                <i class="fa-solid fa-location-crosshairs"></i>
+
+            </button>
+
+        </div>
+
+        <!-- Recent Searches -->
+
+        <div class="history">
+
+            <h3>
+
+                Recent Searches
+
+            </h3>
+
+            <div id="historyList"></div>
+
+        </div>
+
+        <!-- Error Card -->
+
+        <div id="errorCard" class="error-card hidden">
+
+            <i class="fa-solid fa-circle-exclamation"></i>
+
+            <h2>City Not Found</h2>
+
+            <p>Please check the spelling and try again.</p>
+
+        </div>
+
+        <!-- Current Weather -->
+
+        <section class="weather-card">
+
+            <div class="top">
+
+                <div>
+
+                    <h2 id="cityName">
+
+                        Delhi
+
+                    </h2>
+
+                    <p id="currentDate">
+
+                        Monday
+
+                    </p>
+
+                </div>
+
+                <img
+
+                    id="weatherIcon"
+
+                    src=""
+
+                    alt="weather">
+
+            </div>
+
+            <h1 id="temperature">
+
+                30°C
+
+            </h1>
+
+            <p id="description">
+
+                Clear Sky
+
+            </p>
+
+            <!-- Weather Details -->
+
+            <div class="details">
+
+                <div class="box">
+
+                    <i class="fa-solid fa-temperature-half"></i>
+
+                    <span id="feelsLike">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Feels Like
+
+                    </small>
+
+                </div>
+
+                <div class="box">
+
+                    <i class="fa-solid fa-droplet"></i>
+
+                    <span id="humidity">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Humidity
+
+                    </small>
+
+                </div>
+
+                <div class="box">
+
+                    <i class="fa-solid fa-wind"></i>
+
+                    <span id="wind">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Wind
+
+                    </small>
+
+                </div>
+
+                <div class="box">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    <span id="visibility">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Visibility
+
+                    </small>
+
+                </div>
+
+                <div class="box">
+
+                    <i class="fa-solid fa-sun"></i>
+
+                    <span id="sunrise">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Sunrise
+
+                    </small>
+
+                </div>
+
+                <div class="box">
+
+                    <i class="fa-solid fa-moon"></i>
+
+                    <span id="sunset">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Sunset
+
+                    </small>
+
+                </div>
+
+                <div class="box">
+
+                    <i class="fa-solid fa-gauge-high"></i>
+
+                    <span id="pressure">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Pressure
+
+                    </small>
+
+                </div>
+
+                <div class="box">
+
+                    <i class="fa-solid fa-compass"></i>
+
+                    <span id="windDirection">
+
+                        --
+
+                    </span>
+
+                    <small>
+
+                        Direction
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Hourly Forecast -->
+
+        <section class="forecast-section">
+
+            <h2>
+
+                Hourly Forecast
+
+            </h2>
+
+            <div
+
+                id="hourlyForecast"
+
+                class="hourly-container">
+
+            </div>
+
+        </section>
+
+        <!-- 5 Day Forecast -->
+
+        <section class="forecast-section">
+
+            <h2>
+
+                5-Day Forecast
+
+            </h2>
+
+            <div
+
+                id="forecast"
+
+                class="forecast-container">
+
+            </div>
+
+        </section>
+
+        <!-- Air Quality -->
+
+       <section class="aqi-card">
+
+    <h2>
+        🌬 Air Quality Index
+    </h2>
+
+
+    <div class="aqi-box">
+
+        <div>
+
+            <h1 id="aqi">
+                --
+            </h1>
+
+            <p id="aqiStatus">
+                Waiting...
+            </p>
+
+        </div>
+
+
+        <div class="pollution">
+
+            <p>
+                PM2.5:
+                <span id="pm25">--</span>
+            </p>
+
+
+            <p>
+                PM10:
+                <span id="pm10">--</span>
+            </p>
+
+
+            <p>
+                CO:
+                <span id="co">--</span>
+            </p>
+
+
+            <p>
+                NO₂:
+                <span id="no2">--</span>
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+    </div>
+    <footer>
+
+    <p>
+        Weather Dashboard 
+        | Built with HTML, CSS & JavaScript
+    </p>
+
+</footer>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    
+
+</body>
+
+
+</html>
